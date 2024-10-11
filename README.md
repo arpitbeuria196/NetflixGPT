@@ -34,10 +34,8 @@ Fetch Data for trailer video
 Update Store with trailer video Data
 Embedde the youtube video and make it autoplay and mute
 Tailwind classes and make it awesome
-
-
-
-
+Build Secondary components
+Now playing,Trending,popular,Horror
 
 - 
 # Features
@@ -54,5 +52,6 @@ Tailwind classes and make it awesome
 -NetflixGPT
     -Search Bar
     -Movie Suggestions
+
 
 
