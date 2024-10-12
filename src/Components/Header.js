@@ -6,11 +6,14 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser,removeUser } from "../Utils/userSlice";
-import { Logo, Netflix_Logo } from "../Utils/constants";
+import { Logo, Netflix_Logo, SUPPORTED_LANGUAGES } from "../Utils/constants";
+import { handleGPTSearch } from "../Utils/gptSlice";
+import { changeLanguage } from "../Utils/configSlice";
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user); // Get user from Redux store
   const dispatch = useDispatch();
+  const gptSearchEnable = useSelector((store)=> store.gpt.GPTSearchEnabled);
 
   const handleSignout = () => {
     signOut(auth)
@@ -21,7 +24,15 @@ const Header = () => {
         navigate("/error");
       });
   };
+  const handleSearch = () =>
+    {
+        dispatch(handleGPTSearch());    
+    }
 
+    const handleLanguageChange =  (e) =>
+    {
+        dispatch(changeLanguage(e.target.value));
+    }
 
   
   useEffect(() => {
@@ -52,6 +63,25 @@ const Header = () => {
       {/* User Profile Section */}
       {user?.email && (
         <div className="flex items-center space-x-4">
+            { gptSearchEnable && 
+            (
+                <select className=" p-3 bg-gray-800 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={handleLanguageChange}
+                >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.identifier} value={lang.identifier} className="bg-gray-900 text-white">
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+                
+            )
+            }
+            <button 
+            onClick={handleSearch}
+            className="text-white font-semibold px-2 py-3 bg-cyan-700 rounded-md shadow-lg border-red-500 hover:scale-105 transition-transform duration-300">
+                { !gptSearchEnable ? ("GPTSearch"):("HomePage")}
+                </button>
           <span className="text-white font-semibold">{user.displayName}</span> {/* Display name */}
           <img
             alt="User Icon"
@@ -60,7 +90,7 @@ const Header = () => {
           />
           <button
             onClick={handleSignout}
-            className="bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-lg hover:bg-red-700 transition duration-300"
+            className="bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-lg hover:scale-105 bg-red-700 transition-transform duration-300"
           >
             Sign Out
           </button>

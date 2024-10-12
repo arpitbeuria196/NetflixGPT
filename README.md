@@ -36,6 +36,9 @@ Embedde the youtube video and make it autoplay and mute
 Tailwind classes and make it awesome
 Build Secondary components
 Now playing,Trending,popular,Horror
+GPT Search Page
+Multi language
+Integrate  GPT APIS
 
 - 
 # Features
